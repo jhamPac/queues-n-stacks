@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // Action any action taken by the user
 type Action struct {
 	name string
@@ -64,5 +66,16 @@ func (ah *ActionHistory) Undo() *Action {
 func main() {
 	belt := &Belt{}
 
-	belt.Add(NewLuggage(15, "Malone"))
+	belt.Add(NewLuggage(15, "Red"))
+	belt.Add(NewLuggage(4, "Blue"))
+	belt.Add(NewLuggage(7, "Orange"))
+	belt.Add(NewLuggage(3, "Black"))
+
+	fmt.Println("Belt:", belt, "Length:", len(*belt))
+
+	f := belt.Take()
+
+	fmt.Println("First luggage:", f)
+	fmt.Println("Belt:", belt, "Length:", len(*belt))
+
 }
