@@ -17,12 +17,13 @@ type ActionHistory struct {
 // Luggage represents real world luggage
 type Luggage struct {
 	weight    int
+	priority  int
 	passenger string
 }
 
 // NewLuggage is a constructor for Luggage
-func NewLuggage(weight int, passenger string) *Luggage {
-	l := Luggage{weight, passenger}
+func NewLuggage(weight int, priority int, passenger string) *Luggage {
+	l := Luggage{weight, priority, passenger}
 	return &l
 }
 
@@ -31,7 +32,22 @@ type Belt []*Luggage
 
 // Add luggage to the Belt
 func (b *Belt) Add(l *Luggage) {
-	*b = append(*b, l)
+	if len(*b) == 0 {
+		*b = append(*b, l)
+	} else {
+		added := false
+		for i, placedLuggage := range *b {
+			if l.priority > placedLuggage.priority {
+				*b = append((*b)[:i], append(Belt{l}, (*b)[i:]...)...)
+				added = true
+				break
+			}
+		}
+
+		if !added {
+			*b = append(*b, l)
+		}
+	}
 }
 
 // Take is similar to an shift
