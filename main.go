@@ -12,18 +12,27 @@ type ActionHistory struct {
 	size int
 }
 
+// Luggage represents real world luggage
 type Luggage struct {
 	weight    int
 	passenger string
 }
 
+// NewLuggage is a constructor for Luggage
 func NewLuggage(weight int, passenger string) *Luggage {
 	l := Luggage{weight, passenger}
 	return &l
 }
 
+// Belt custom type slice of Luggage
 type Belt []*Luggage
 
+// Add luggage to the Belt
+func (b *Belt) Add(l *Luggage) {
+	*b = append(*b, l)
+}
+
+// Take is similar to an shift
 func (b *Belt) Take() *Luggage {
 	first, rest := (*b)[0], (*b)[1:]
 	*b = rest
@@ -53,5 +62,7 @@ func (ah *ActionHistory) Undo() *Action {
 }
 
 func main() {
+	belt := &Belt{}
 
+	belt.Add(NewLuggage(15, "Malone"))
 }
